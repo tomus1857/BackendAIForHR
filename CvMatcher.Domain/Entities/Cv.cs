@@ -7,4 +7,6 @@ public class Cv
     public string ExtractedText { get; set; } = string.Empty;
     public string ParsedData { get; set; } = string.Empty;
     public DateTime UploadedAt { get; set; }
+    public float[] EmbeddingVector { get; set; } = Array.Empty<float>();
+    public double? MatchScore { get; set; }
 }

@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(UploadAndParseCvCommand).Assembly));
 builder.Services.AddScoped<ICvRepository, CvRepository>();
-//builder.Services.AddScoped<ICvParserService, CvParserService>();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ICvParserService, CvParserService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=app.db"));
 builder.Services.AddEndpointsApiExplorer();

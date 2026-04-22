@@ -16,23 +16,24 @@ public class UploadAndParseCvCommand : IRequest<UploadAndParseCvResponse>
 public class UploadAndParseCvCommandHandler : IRequestHandler<UploadAndParseCvCommand, UploadAndParseCvResponse>
 {
     private readonly ICvRepository _cvRepository;
-    public UploadAndParseCvCommandHandler(ICvRepository cvRepository)
-                                          //ICvParserService cvParserService)
+    private readonly ICvParserService _cvParserService;
+    public UploadAndParseCvCommandHandler(ICvRepository cvRepository,
+                                          ICvParserService cvParserService)
     {
         _cvRepository = cvRepository;
-        //_cvParserService = cvParserService;
+        _cvParserService = cvParserService;
     }
     public async Task<UploadAndParseCvResponse> Handle(UploadAndParseCvCommand request, CancellationToken cancellationToken)
     {
-        // string extractedText = await _cvParserService.ExtractTextAsync(request.File);
-        // var parsedData = await _cvParserService.ParseCvAsync(extractedText);
+        string extractedText = await _cvParserService.ExtractTextAsync(request.File);
+        var parsedData = await _cvParserService.ParseCvAsync(extractedText);
         var cv = new Cv
         {
             Id = Guid.NewGuid(),
             FileName = request.File.FileName,
             ContentType = request.File.ContentType,
-            //ExtractedText = extractedText,
-            //ParsedData = parsedData,
+            ExtractedText = extractedText,
+            ParsedData = parsedData,
             UploadedAt = DateTime.UtcNow
         };
         await _cvRepository.SaveCvAsync(cv);

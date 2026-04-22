@@ -487,10 +487,9 @@ $RECYCLE.BIN/
 *.db
 *.sqlite
 *.sqlite3
+*.db-shm
+*.db-wal
 
-# EF Core
-Migrations/
-*.efcache
 
 appsettings.*.json
 
